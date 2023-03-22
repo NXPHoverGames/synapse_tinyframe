@@ -1,25 +1,44 @@
-cmake_minimum_required(VERSION 3.7)
-project(tf)
+cmake_minimum_required(VERSION 3.8)
+project(synapse_tinyframe)
 
-# This is a dummy CMakeLists file for CLion, which still doesn't understand Makefiles.
-# Do not try to build the library using this file, it's here only for static analysis.
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-set(CMAKE_CXX_STANDARD GNU89)
+# find dependencies
+find_package(ament_cmake REQUIRED)
 
-set(SOURCE_FILES
-        demo/simple/test.c
-        demo/socket_demo/master.c
-        demo/socket_demo/slave.c
-        demo/socket_demo/TF_Config.h
-        demo/demo.c
-        demo/demo.h
-        TinyFrame.c
-        TinyFrame.h
-        TF_Config.example.h
-        demo/utils.c
-        demo/utils.h
-        )
+add_library(${PROJECT_NAME}
+  src/TinyFrame.c
+)
 
-include_directories(demo/simple)
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tinyframe>
+    $<INSTALL_INTERFACE:include>)
 
-add_executable(tf ${SOURCE_FILES})
+ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
+
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT ${PROJECT_NAME}
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
+)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  #set(ament_cmake_copyright_FOUND TRUE)
+  #set(ament_cmake_cpplint_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()

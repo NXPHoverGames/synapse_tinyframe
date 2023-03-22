@@ -1,0 +1,4 @@
+name: synapse_pb
+build:
+  cmake-ext: True
+  kconfig-ext: True
