@@ -6,6 +6,8 @@ zephyr_library_named(synapse_tinyframe)
 
 zephyr_include_directories(
   ${SYNAPSE_TINYFRAME_DIR}/include
+  ${SYNAPSE_TINYFRAME_DIR}/include/tinyframe
+  ${CMAKE_CURRENT_BINARY_DIR}/..
   )
 
 zephyr_library_sources(

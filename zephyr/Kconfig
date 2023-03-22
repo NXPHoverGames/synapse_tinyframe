@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
-config TINYFRAME
-        bool "TinyFrame Support"
+config SYNAPSE_TINYFRAME
+        bool "Synapse TinyFrame Support"
         help
-          This option enables the Tinyframe library.
+          This option enables the Synapse Tinyframe library.
 
-if TINYFRAME
+if SYNAPSE_TINYFRAME
 
 endif
