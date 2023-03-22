@@ -1,3 +1,12 @@
+/**
+ * TinyFrame protocol library
+ *
+ * (c) Ondřej Hruška 2017-2018, MIT License
+ * no liability/warranty, free for any use, must retain this notice & license
+ *
+ * Upstream URL: https://github.com/MightyPork/TinyFrame
+ */
+
 //---------------------------------------------------------------------------
 #include "TinyFrame.h"
 #include <stdlib.h> // - for malloc() if dynamic constructor is used

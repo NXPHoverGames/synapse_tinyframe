@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 
 add_library(${PROJECT_NAME}
   src/TinyFrame.c
+  src/utils.c
 )
 
 target_include_directories(${PROJECT_NAME}

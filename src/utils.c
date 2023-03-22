@@ -1,3 +1,12 @@
+/**
+ * TinyFrame protocol library
+ *
+ * (c) Ondřej Hruška 2017-2018, MIT License
+ * no liability/warranty, free for any use, must retain this notice & license
+ *
+ * Upstream URL: https://github.com/MightyPork/TinyFrame
+ */
+
 //
 // Created by MightyPork on 2017/10/15.
 //
