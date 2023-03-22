@@ -14,6 +14,10 @@
 #ifndef TF_UTILS_H
 #define TF_UTILS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 #include "TinyFrame.h"
 
@@ -31,5 +35,9 @@ void dumpFrame(const uint8_t *buff, size_t len);
  * @param msg
  */
 void dumpFrameInfo(TF_Msg *msg);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //TF_UTILS_H
