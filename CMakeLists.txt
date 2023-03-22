@@ -16,7 +16,7 @@ add_library(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tinyframe>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/synapse_tinyframe>
     $<INSTALL_INTERFACE:include>)
 
 ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
