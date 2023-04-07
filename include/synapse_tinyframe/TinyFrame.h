@@ -21,6 +21,7 @@ extern "C" {
 #include <stdbool.h> // for bool
 #include <stddef.h>  // for NULL
 #include <string.h>  // for memset()
+#include <pthread.h>  // for mutex
 //---------------------------------------------------------------------------
 
 // Checksum type (0 = none, 8 = ~XOR, 16 = CRC16 0x8005, 32 = CRC32)
@@ -402,7 +403,6 @@ void TF_Multipart_Payload(TinyFrame *tf, const uint8_t *buff, uint32_t length);
  */
 void TF_Multipart_Close(TinyFrame *tf);
 
-
 // ---------------------------------- INTERNAL ----------------------------------
 // This is publicly visible only to allow static init.
 
@@ -443,6 +443,16 @@ struct TinyFrame_ {
     void *userdata;
     uint32_t usertag;
 
+    /**
+     * 'Write bytes' function that sends data to UART
+     *
+     * ! Implement this in your application code !
+     */
+    void (*write)(TinyFrame *tf, const uint8_t *buff, uint32_t len);
+
+    // mutex
+    pthread_mutex_t lock;
+
     // --- the rest of the struct is internal, do not access directly ---
 
     /* Own state */
@@ -469,10 +479,6 @@ struct TinyFrame_ {
     uint32_t tx_len;        //!< Total expected Tx length
     TF_CKSUM tx_cksum;      //!< Transmit checksum accumulator
 
-#if !TF_USE_MUTEX
-    bool soft_lock;         //!< Tx lock flag used if the mutex feature is not enabled.
-#endif
-
     /* --- Callbacks --- */
 
     /* Transaction callbacks */
@@ -488,58 +494,10 @@ struct TinyFrame_ {
     TF_COUNT count_generic_lst;
 };
 
-
-// ------------------------ TO BE IMPLEMENTED BY USER ------------------------
-
-/**
- * 'Write bytes' function that sends data to UART
- *
- * ! Implement this in your application code !
- */
-extern void TF_WriteImpl(TinyFrame *tf, const uint8_t *buff, uint32_t len);
-
-// Mutex functions
-#if TF_USE_MUTEX
-
-    /** Claim the TX interface before composing and sending a frame */
-    extern bool TF_ClaimTx(TinyFrame *tf);
-
-    /** Free the TX interface after composing and sending a frame */
-    extern void TF_ReleaseTx(TinyFrame *tf);
-
-#endif
-
-// Custom checksum functions
-#if (TF_CKSUM_TYPE == TF_CKSUM_CUSTOM8) || (TF_CKSUM_TYPE == TF_CKSUM_CUSTOM16) || (TF_CKSUM_TYPE == TF_CKSUM_CUSTOM32)
-
-    /**
-     * Initialize a checksum
-     *
-     * @return initial checksum value
-     */
-    extern TF_CKSUM TF_CksumStart(void);
-
-    /**
-     * Update a checksum with a byte
-     *
-     * @param cksum - previous checksum value
-     * @param byte - byte to add
-     * @return updated checksum value
-     */
-    extern TF_CKSUM TF_CksumAdd(TF_CKSUM cksum, uint8_t byte);
-
-    /**
-     * Finalize the checksum calculation
-     *
-     * @param cksum - previous checksum value
-     * @return final checksum value
-     */
-    extern TF_CKSUM TF_CksumEnd(TF_CKSUM cksum);
-
-#endif
-
 #ifdef __cplusplus
 }
 #endif
 
 #endif
+
+// vi: ts=4 sw=4 et

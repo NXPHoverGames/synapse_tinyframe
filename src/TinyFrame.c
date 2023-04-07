@@ -10,6 +10,8 @@
 //---------------------------------------------------------------------------
 #include "TinyFrame.h"
 #include <stdlib.h> // - for malloc() if dynamic constructor is used
+#include <stdbool.h> // - for bool
+#include <pthread.h> // - for mutex_lock/unlock()
 //---------------------------------------------------------------------------
 
 // Compatibility with ESP8266 SDK
@@ -30,28 +32,18 @@
 #define TF_ID_PEERBIT (TF_ID)((TF_ID)1 << ((sizeof(TF_ID)*8) - 1))
 
 
-#if !TF_USE_MUTEX
-    // Not thread safe lock implementation, used if user did not provide a better one.
-    // This is less reliable than a real mutex, but will catch most bugs caused by
-    // inappropriate use fo the API.
+// Mutex locking
 
-    /** Claim the TX interface before composing and sending a frame */
-    static bool TF_ClaimTx(TinyFrame *tf) {
-        if (tf->soft_lock) {
-            TF_Error("TF already locked for tx!");
-            return false;
-        }
+/** Claim the TX interface before composing and sending a frame */
+static bool TF_ClaimTx(TinyFrame *tf) {
+    return pthread_mutex_lock(&tf->lock);
+}
 
-        tf->soft_lock = true;
-        return true;
-    }
-
-    /** Free the TX interface after composing and sending a frame */
-    static void TF_ReleaseTx(TinyFrame *tf)
-    {
-        tf->soft_lock = false;
-    }
-#endif
+/** Free the TX interface after composing and sending a frame */
+static void TF_ReleaseTx(TinyFrame *tf)
+{
+    pthread_mutex_unlock(&tf->lock);
+}
 
 //region Checksums
 
@@ -922,7 +914,7 @@ static void _TF_FN TF_SendFrame_Chunk(TinyFrame *tf, const uint8_t *buff, uint32
 
         // Flush if the buffer is full
         if (tf->tx_pos == TF_SENDBUF_LEN) {
-            TF_WriteImpl(tf, (const uint8_t *) tf->sendbuf, tf->tx_pos);
+            tf->write(tf, (const uint8_t *) tf->sendbuf, tf->tx_pos);
             tf->tx_pos = 0;
         }
     }
@@ -939,7 +931,7 @@ static void _TF_FN TF_SendFrame_End(TinyFrame *tf)
     if (tf->tx_len > 0) {
         // Flush if checksum wouldn't fit in the buffer
         if (TF_SENDBUF_LEN - tf->tx_pos < sizeof(TF_CKSUM)) {
-            TF_WriteImpl(tf, (const uint8_t *) tf->sendbuf, tf->tx_pos);
+            tf->write(tf, (const uint8_t *) tf->sendbuf, tf->tx_pos);
             tf->tx_pos = 0;
         }
 
@@ -947,7 +939,7 @@ static void _TF_FN TF_SendFrame_End(TinyFrame *tf)
         tf->tx_pos += TF_ComposeTail(tf->sendbuf + tf->tx_pos, &tf->tx_cksum);
     }
 
-    TF_WriteImpl(tf, (const uint8_t *) tf->sendbuf, tf->tx_pos);
+    tf->write(tf, (const uint8_t *) tf->sendbuf, tf->tx_pos);
     TF_ReleaseTx(tf);
 }
 
@@ -1092,3 +1084,5 @@ void _TF_FN TF_Tick(TinyFrame *tf)
         }
     }
 }
+
+// vi: ts=4 sw=4 et

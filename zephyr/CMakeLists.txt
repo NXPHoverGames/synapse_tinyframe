@@ -4,6 +4,8 @@ set(SYNAPSE_TINYFRAME_DIR ${ZEPHYR_CURRENT_MODULE_DIR})
 
 zephyr_library_named(synapse_tinyframe)
 
+target_compile_options(synapse_tinyframe PRIVATE -Wall -Wextra -Werror -Wpedantic)
+
 zephyr_include_directories(
   ${SYNAPSE_TINYFRAME_DIR}/include
   )

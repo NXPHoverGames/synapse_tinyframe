@@ -70,11 +70,8 @@ typedef uint8_t TF_COUNT;
 // ticks = number of calls to TF_Tick()
 #define TF_PARSER_TIMEOUT_TICKS 10
 
-// Whether to use mutex - requires you to implement TF_ClaimTx() and TF_ReleaseTx()
-#define TF_USE_MUTEX  0
-
 // Error reporting function. To disable debug, change to empty define
-#define TF_Error(format, ...) printf("[TF] " format "\n", ##__VA_ARGS__)
+#define TF_Error(...) printf( __VA_ARGS__); printf("\n");
 
 //------------------------- End of user config ------------------------------
 
