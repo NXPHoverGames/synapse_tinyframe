@@ -874,7 +874,7 @@ static inline uint32_t _TF_FN TF_ComposeTail(uint8_t *outbuff, TF_CKSUM *cksum)
  */
 static bool _TF_FN TF_SendFrame_Begin(TinyFrame *tf, TF_Msg *msg, TF_Listener listener, TF_Listener_Timeout ftimeout, TF_TICKS timeout)
 {
-    TF_TRY(TF_ClaimTx(tf));
+    TF_ClaimTx(tf);
 
     tf->tx_pos = (uint32_t) TF_ComposeHead(tf, tf->sendbuf, msg); // frame ID is incremented here if it's not a response
     tf->tx_len = msg->len;
@@ -887,6 +887,7 @@ static bool _TF_FN TF_SendFrame_Begin(TinyFrame *tf, TF_Msg *msg, TF_Listener li
     }
 
     CKSUM_RESET(tf->tx_cksum);
+    TF_ReleaseTx(tf);
     return true;
 }
 
