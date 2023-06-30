@@ -34,6 +34,9 @@ extern "C" {
 #define SYNAPSE_IN_ACTUATORS_TOPIC 8
 #define SYNAPSE_IN_ACTUATORS_TYPE Actuators
 
+#define SYNAPSE_IN_CLOCK_OFFSET_TOPIC 9
+#define SYNAPSE_IN_CLOCK_OFFSET_TYPE Clock
+
 // Physical/Simulation (from cerebri) (64-127)
 
 #define SYNAPSE_OUT_CMD_VEL_TOPIC 64
