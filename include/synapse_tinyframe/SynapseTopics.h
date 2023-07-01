@@ -37,6 +37,9 @@ extern "C" {
 #define SYNAPSE_IN_CLOCK_OFFSET_TOPIC 9
 #define SYNAPSE_IN_CLOCK_OFFSET_TYPE Timestamp
 
+#define SYNAPSE_IN_SIM_CLOCK_TOPIC 10
+#define SYNAPSE_IN_SIM_CLOCK_TYPE SimClock
+
 // Physical/Simulation (from cerebri) (64-127)
 
 #define SYNAPSE_OUT_CMD_VEL_TOPIC 64
@@ -66,28 +69,7 @@ extern "C" {
 #define SYNAPSE_OUT_ACTUATORS_TOPIC 72
 #define SYNAPSE_OUT_ACTUATORS_TYPE Actuators
 
-// Reserved (128-191)
-
-// Simulation (to cerebri) (192-255)
-
-#define SYNAPSE_SIM_CLOCK_TOPIC 192
-#define SYNAPSE_SIM_CLOCK_TYPE Clock
-
-#define SYNAPSE_SIM_IMU_TOPIC 193
-#define SYNAPSE_SIM_IMU_TYPE IMU
-
-#define SYNAPSE_SIM_MAG_TOPIC 194
-#define SYNAPSE_SIM_MAG_TYPE Magnetometer
-
-#define SYNAPSE_SIM_NAVSAT_TOPIC 195
-#define SYNAPSE_SIM_NAVSAT_TYPE NavSat
-
-#define SYNAPSE_SIM_ALT_TOPIC 196
-#define SYNAPSE_SIM_ALT_TYPE Altimeter
-
-#define SYNAPSE_SIM_ACTUATORS_TOPIC 197
-#define SYNAPSE_SIM_ACTUATORS_TYPE Actuators
-
+// Reserved (128-255)
 
 #ifdef __cplusplus
 }
