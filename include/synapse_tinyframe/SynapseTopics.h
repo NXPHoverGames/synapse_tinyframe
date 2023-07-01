@@ -37,7 +37,10 @@ extern "C" {
 #define SYNAPSE_IN_CLOCK_OFFSET_TOPIC 9
 #define SYNAPSE_IN_CLOCK_OFFSET_TYPE Timestamp
 
-#define SYNAPSE_IN_SIM_CLOCK_TOPIC 10
+#define SYNAPSE_IN_BATTERY_STATE_TOPIC 10
+#define SYNAPSE_IN_BATTERY_STATE Timestamp
+
+#define SYNAPSE_IN_SIM_CLOCK_TOPIC 63
 #define SYNAPSE_IN_SIM_CLOCK_TYPE SimClock
 
 // Physical/Simulation (from cerebri) (64-127)
@@ -68,6 +71,12 @@ extern "C" {
 
 #define SYNAPSE_OUT_ACTUATORS_TOPIC 72
 #define SYNAPSE_OUT_ACTUATORS_TYPE Actuators
+
+#define SYNAPSE_OUT_CLOCK_OFFSET_TOPIC 73
+#define SYNAPSE_OUT_CLOCK_OFFSET_TYPE Timestamp
+
+#define SYNAPSE_OUT_BATTERY_STATE_TOPIC 74
+#define SYNAPSE_OUT_BATTERY_STATE Timestamp
 
 // Reserved (128-255)
 
