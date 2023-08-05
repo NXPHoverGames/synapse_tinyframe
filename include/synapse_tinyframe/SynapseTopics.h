@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-// Physical (to cerebri) (0-63)
+// Physical (ROS to cerebri) (0-63)
 
 #define SYNAPSE_IN_CMD_VEL_TOPIC 0
 #define SYNAPSE_IN_CMD_VEL_TYPE Twist
@@ -43,7 +43,7 @@ extern "C" {
 #define SYNAPSE_IN_SIM_CLOCK_TOPIC 63
 #define SYNAPSE_IN_SIM_CLOCK_TYPE SimClock
 
-// Physical/Simulation (from cerebri) (64-127)
+// Physical/Simulation (cerebri to ROS) (64-127)
 
 #define SYNAPSE_OUT_CMD_VEL_TOPIC 64
 #define SYNAPSE_OUT_CMD_VEL_TYPE Twist
@@ -77,6 +77,9 @@ extern "C" {
 
 #define SYNAPSE_OUT_BATTERY_STATE_TOPIC 74
 #define SYNAPSE_OUT_BATTERY_STATE BatteryState
+
+#define SYNAPSE_OUT_WHEEL_ODOMETRY_TOPIC 75
+#define SYNAPSE_OUT_WHEEL_ODOMETRY_TYPE WheelOdometry
 
 // Reserved (128-255)
 
