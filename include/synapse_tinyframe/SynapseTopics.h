@@ -84,6 +84,9 @@ extern "C" {
 #define SYNAPSE_OUT_WHEEL_ODOMETRY_TOPIC 75
 #define SYNAPSE_OUT_WHEEL_ODOMETRY_TYPE WheelOdometry
 
+#define SYNAPSE_OUT_MODE_TOPIC 76
+#define SYNAPSE_OUT_MODE_TYPE Mode
+
 // Reserved (128-255)
 
 #ifdef __cplusplus
