@@ -163,6 +163,15 @@ typedef TF_Result (*TF_Listener)(TinyFrame *tf, TF_Msg *msg);
  */
 typedef TF_Result (*TF_Listener_Timeout)(TinyFrame *tf);
 
+
+/***
+ * TinyFrame write function
+ * @param tf - instance
+ * @param buff - the buffer to write
+ * @param len - the length of the buffer
+ */
+typedef void (TF_Write)(TinyFrame *tf, const uint8_t *buff, uint32_t len);
+
 // ---------------------------------- INIT ------------------------------
 
 /**
@@ -179,8 +188,7 @@ typedef TF_Result (*TF_Listener_Timeout)(TinyFrame *tf);
  * @param peer_bit - peer bit to use for self
  * @return TF instance or NULL
  */
-TinyFrame *TF_Init(TF_Peer peer_bit);
-
+TinyFrame *TF_Init(TF_Peer peer_bit, TF_Write * write);
 
 /**
  * Initialize the TinyFrame engine using a statically allocated instance struct.
@@ -191,7 +199,7 @@ TinyFrame *TF_Init(TF_Peer peer_bit);
  * @param peer_bit - peer bit to use for self
  * @return success
  */
-bool TF_InitStatic(TinyFrame *tf, TF_Peer peer_bit);
+bool TF_InitStatic(TinyFrame *tf, TF_Peer peer_bit, TF_Write * write);
 
 /**
  * De-init the dynamically allocated TF instance
@@ -448,7 +456,7 @@ struct TinyFrame_ {
      *
      * ! Implement this in your application code !
      */
-    void (*write)(TinyFrame *tf, const uint8_t *buff, uint32_t len);
+    TF_Write * write;
 
     // mutex
     pthread_mutex_t lock;

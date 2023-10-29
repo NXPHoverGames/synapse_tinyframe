@@ -260,7 +260,7 @@ static TF_CKSUM TF_CksumEnd(TF_CKSUM cksum)
 // region Init
 
 /** Init with a user-allocated buffer */
-bool _TF_FN TF_InitStatic(TinyFrame* tf, TF_Peer peer_bit)
+bool _TF_FN TF_InitStatic(TinyFrame* tf, TF_Peer peer_bit, TF_Write* write)
 {
     if (tf == NULL) {
         TF_Error("TF_InitStatic() failed, tf is null.");
@@ -273,15 +273,17 @@ bool _TF_FN TF_InitStatic(TinyFrame* tf, TF_Peer peer_bit)
 
     memset(tf, 0, sizeof(struct TinyFrame_));
 
+    pthread_mutex_init(&tf->lock, NULL);
     tf->usertag = usertag;
     tf->userdata = userdata;
+    tf->write = write;
 
     tf->peer_bit = peer_bit;
     return true;
 }
 
 /** Init with malloc */
-TinyFrame* _TF_FN TF_Init(TF_Peer peer_bit)
+TinyFrame* _TF_FN TF_Init(TF_Peer peer_bit, TF_Write * write)
 {
     TinyFrame* tf = malloc(sizeof(TinyFrame));
     if (!tf) {
@@ -289,7 +291,7 @@ TinyFrame* _TF_FN TF_Init(TF_Peer peer_bit)
         return NULL;
     }
 
-    TF_InitStatic(tf, peer_bit);
+    TF_InitStatic(tf, peer_bit, write);
     return tf;
 }
 
@@ -938,7 +940,6 @@ static bool _TF_FN TF_SendFrame_Begin(TinyFrame* tf, TF_Msg* msg, TF_Listener li
     }
 
     CKSUM_RESET(tf->tx_cksum);
-    TF_ReleaseTx(tf);
     return true;
 }
 
