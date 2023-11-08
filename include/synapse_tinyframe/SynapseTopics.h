@@ -47,6 +47,9 @@ extern "C" {
 #define SYNAPSE_FSM_TOPIC 13
 #define SYNAPSE_FSM_TYPE Fsm
 
+#define SYNAPSE_SAFETY_TOPIC 14
+#define SYNAPSE_SAFETY_TYPE Safety
+
 #define SYNAPSE_SIM_CLOCK_TOPIC 63
 #define SYNAPSE_SIM_CLOCK_TYPE SimClock
 

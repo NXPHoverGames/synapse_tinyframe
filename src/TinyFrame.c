@@ -283,7 +283,7 @@ bool _TF_FN TF_InitStatic(TinyFrame* tf, TF_Peer peer_bit, TF_Write* write)
 }
 
 /** Init with malloc */
-TinyFrame* _TF_FN TF_Init(TF_Peer peer_bit, TF_Write * write)
+TinyFrame* _TF_FN TF_Init(TF_Peer peer_bit, TF_Write* write)
 {
     TinyFrame* tf = malloc(sizeof(TinyFrame));
     if (!tf) {
